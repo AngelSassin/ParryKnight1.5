@@ -1,5 +1,7 @@
 # Parry Knight Mod
 
+**This mod requires Vasi.**
+
 This mod was created with the following principles:
 - Only parrying will damage parryable enemies.
 - Only spells will damage non-parryable enemies.
