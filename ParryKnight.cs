@@ -24,12 +24,13 @@ namespace ParryKnight
     /// <remarks>This configuration has settings that are save specific and global (profile) too.</remarks>
     public class ParryKnight : Mod
     {
-        
+
         /// <summary>
         /// Fetches the Mod Version From AssemblyInfo.AssemblyVersion
         /// </summary>
         /// <returns>Mod's Version</returns>
-        public override string GetVersion() => Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        public override string GetVersion() => "0.1.4.0";
+        private bool hardMode = true;
 
         private List<GameObject> enemies = new List<GameObject>();
         private bool slyPhase2 = false;
@@ -49,14 +50,16 @@ namespace ParryKnight
 
             On.HutongGames.PlayMaker.Actions.IntOperator.OnEnter += (orig, self) =>
             {
-                if (self.Fsm.GameObject.name == "Enemy Damager" && self.Fsm.Name == "Attack" && self.State.Name == "Hit")
+                if (self.Fsm.GameObject.name.Equals("Enemy Damager") && self.Fsm.Name.Equals("Attack"))
                 {
-                    self.integer2 = 0; // No Weaverling Damage
+                    if (self.State.Name.Equals("Hit") || self.State.Name.Equals("Parent?") || self.State.Name.Equals("G Parent?"))
+                        self.integer2 = 0; // No Weaverling Damage
                 }
 
-                if (self.Fsm.GameObject.name == "Shield" && self.Fsm.Name == "Shield Hit" && self.State.Name == "Hit")
+                if (self.Fsm.GameObject.name.Equals("Shield") && self.Fsm.Name.Equals("Shield Hit"))
                 {
-                    self.integer2 = 0; // No Dreamshield Damage
+                    if (self.State.Name.Equals("Hit") || self.State.Name.Equals("Parent?") || self.State.Name.Equals("G Parent?"))
+                        self.integer2 = 0; // No Dreamshield Damage
                 }
 
                 orig(self);
@@ -68,6 +71,13 @@ namespace ParryKnight
                 if (name.Contains("("))
                     name = name.Substring(0, name.IndexOf("(")).Trim();
                 PlayerData pd = PlayerData.instance;
+
+                if (!hitInstance.Source)
+                {
+                    hitInstance.DamageDealt = 0;
+                    orig(self, hitInstance);
+                    return;
+                }
 
                 if (hitInstance.AttackType.Equals(AttackTypes.Nail) && ( // Nail Arts
                         hitInstance.Source.name.Equals("Hit L") ||
@@ -133,7 +143,7 @@ namespace ParryKnight
                     orig(self, hitInstance);
                     return;
                 }
-                else // If an enemy is NOT parriable
+                else // If an enemy is NOT parryable
                 {
                     if (hitInstance.AttackType.Equals(AttackTypes.Nail) ||
                             hitInstance.AttackType.Equals(AttackTypes.NailBeam) ||
@@ -150,13 +160,13 @@ namespace ParryKnight
                 if (hitInstance.DamageDealt != 0)
                 {
                     Log("HIT LOGGED: " + hitInstance.AttackType + "    " + name + "    " + hitInstance.Source);
-                    Log("ATTACK TYPE " + hitInstance.AttackType + "    " + hitInstance.Source.name);
                 }
 
                 orig(self, hitInstance);
             };
 
-            On.HeroController.NailParry += (orig, self) => {
+            On.HeroController.NailParry += (orig, self) =>
+            {
                 bool parryOccurred = false;
                 List<string> logActions = new List<string>();
                 string nameList = "";
@@ -178,8 +188,8 @@ namespace ParryKnight
                     // OR one of these weird cases:
                     // - Brooding Mawlek is in the room! Mawlek has no FSM that's parriable, but its body parts have separate actions that are parriable. Weird case.
                     if (_actionList.parriableActions.Contains(name + "-" + state) ||
-                            name == "Mawlek Body" ||
-                            name == "Mawlek Col")
+                            name.Equals("Mawlek Body") ||
+                            name.Equals("Mawlek Col"))
                     {
                         parryOccurred = true;
                         HealthManager enemyHealth = enemy.GetComponent<HealthManager>();
@@ -188,22 +198,38 @@ namespace ParryKnight
                             double bossMultiplier = 1; // Some bosses are just stupidly boring because parries hardly ever occur. Let's make them killable faster.
                             switch (name)
                             {
-                                case "Hornet Boss 2":
                                 case "Grimm Boss":
                                 case "Nightmare Grimm Boss":
+                                    bossMultiplier = 2.5;
+                                    break;
+                                case "Hornet Boss 2":
                                 case "Hive Knight":
+                                case "Lost Kin":
                                     bossMultiplier = 2;
                                     break;
                                 case "Sheo Boss":
+                                case "HK Prime":
+                                case "Infected Knight":
+                                case "Black Knight 1":
+                                case "Black Knight 2":
+                                case "Black Knight 3":
+                                case "Black Knight 4":
+                                case "Black Knight 5":
+                                case "Black Knight 6":
                                     bossMultiplier = 1.5;
                                     break;
                                 default:
                                     bossMultiplier = 1;
                                     break;
                             }
-                            int damage = 5 + PlayerData.instance.nailSmithUpgrades * 4;
+
+                            if (BossSequenceController.IsInSequence && !hardMode)
+                            {
+                                bossMultiplier *= 2;
+                            }
+                            int damage = PlayerData.instance.nailDamage;
                             if (PlayerData.instance.GetBool("equippedCharm_25")) // If Strength Charm is equipped
-                                damage = (int)(damage * 1.5);
+                                damage = (int)((damage * 1.5) + 0.5);
                             if (PlayerData.instance.GetBool("equippedCharm_6") && PlayerData.instance.health == 1) // If Fury of the Fallen is equipped and hp = 1
                                 damage = (int)(damage * 1.75);
                             enemyHealth.ApplyExtraDamage((int)(damage * bossMultiplier));
@@ -214,12 +240,8 @@ namespace ParryKnight
                         }
                     }
                 }
-                //Log("ENEMIES    " + nameList);
                 if (!parryOccurred)
                 {
-                    // THERE WAS A HUGE OVERSIGHT! You just parried an enemy in a way that wasn't accounted for! 
-                    // Add some sort of on-screen indicator for the player to see that damage should have occurred
-                    // and that the player should send the log file to me!!!
                     foreach (string log in logActions)
                     {
                         Log("NOT LOGGED!!! " + log);
@@ -227,33 +249,54 @@ namespace ParryKnight
                     }
                 }
                 if (badParry && !textParry)
-                {
+                { // Add some sort of on-screen indicator for the player to see that damage should have occurred
                     GameObject c = CanvasUtil.CreateCanvas(RenderMode.ScreenSpaceOverlay, new Vector2(1920, 1080));
                     Text ohNo = CanvasUtil.CreateTextPanel(c, "OH NO! You found a parry the mod dev didn't know about!",
                         35, TextAnchor.MiddleCenter, new CanvasUtil.RectData(
-                        new Vector2(1500, 1500), new Vector2(0f, 90), new Vector2(0.5f, 0), new Vector2(0.5f, 0), new Vector2(0.5f, 0.5f)
+                        new Vector2(1500, 1500), new Vector2(0f, 70), new Vector2(0.5f, 0), new Vector2(0.5f, 0), new Vector2(0.5f, 0.5f)
                     ), true).GetComponent<Text>();
                     Text sendLog = CanvasUtil.CreateTextPanel(c, "After closing the game, send your ModLog to AngelSassin in the HK Discord.",
                         25, TextAnchor.MiddleCenter, new CanvasUtil.RectData(
-                        new Vector2(1500, 1500), new Vector2(0f, 50), new Vector2(0.5f, 0), new Vector2(0.5f, 0), new Vector2(0.5f, 0.5f)
-                    ), true).GetComponent<Text>();
-                    Text logLocation = CanvasUtil.CreateTextPanel(c, "(...\\LocalLow\\Team Cherry\\Hollow Knight\\ModLog.txt)",
-                        18, TextAnchor.MiddleCenter, new CanvasUtil.RectData(
-                        new Vector2(1500, 1500), new Vector2(0f, 20), new Vector2(0.5f, 0), new Vector2(0.5f, 0), new Vector2(0.5f, 0.5f)
+                        new Vector2(1500, 1500), new Vector2(0f, 30), new Vector2(0.5f, 0), new Vector2(0.5f, 0), new Vector2(0.5f, 0.5f)
                     ), true).GetComponent<Text>();
                     textParry = true;
                 }
                 orig(self);
             };
-            
+
             ModHooks.ApplicationQuitHook += ApplicationQuitHook;
             ModHooks.OnEnableEnemyHook += EnemyEnabled;
             ModHooks.BeforeSceneLoadHook += BeforeSceneLoad;
             On.PlayMakerFSM.OnEnable += OnFsmEnable;
             On.SpellFluke.DoDamage += OnFlukeDamage;
             On.KnightHatchling.Spawn += OnHatchlingSpawn;
+            ModHooks.ObjectPoolSpawnHook += OnObjectPoolSpawn;
             ModHooks.LanguageGetHook += LanguageGet;
-            Log("Initialized");
+        }
+
+        private GameObject OnObjectPoolSpawn(GameObject arg)
+        {
+            string name = arg.name;
+            if (name.Contains("("))
+                name = name.Substring(0, name.IndexOf("(")).Trim();
+            if (!name.Equals("Parasite Balloon Spawner"))
+                return arg;
+            GameObject boss = GameObject.Find("Lost Kin");
+            if (!boss)
+                boss = GameObject.Find("Infected Knight");
+            if (!boss)
+                return arg;
+            PlayMakerFSM fsm = boss.GetComponent<PlayMakerFSM>();
+            if (!fsm)
+                return arg;
+
+            string state = fsm.ActiveStateName;
+            if (state.Equals("Stunned"))
+            {
+                arg.Recycle();
+                return null;
+            }
+            return arg;
         }
 
         private System.Collections.IEnumerator OnHatchlingSpawn(On.KnightHatchling.orig_Spawn orig, KnightHatchling self)
@@ -368,8 +411,6 @@ namespace ParryKnight
 
         public string LanguageGet(string key, string sheet, string orig)
         {
-            Log("KEY: `" + key + "` displays this text: " + Language.Language.GetInternal(key, sheet));
-
             // OTHER DESCRIPTIONS
             if (key == "DIRTMOUTH_MAIN")
                 return "Parry Knight";

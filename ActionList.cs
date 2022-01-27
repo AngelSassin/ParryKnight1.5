@@ -57,7 +57,9 @@ namespace ParryKnight
             "Ruins Sentry Fat-Swipe",                   // Heavy Sentry
             "Ruins Sentry Fat-Single Swipe",
             "Ruins Sentry Fat B-Swipe",                 // Heavy Sentry, but B (whatever that means)
-            "Ruins Sentry Fat B-Single Swipe",          
+            "Ruins Sentry Fat B-Single Swipe",
+            "Ruins Sentry FatB-Swipe",
+            "Ruins Sentry FatB-Single Swipe",
             "Hive Knight-Slash 1",                      // Hive Knight
             "Hive Knight-Slash 2",
             "Hollow Knight Boss-Slash1",                // The Hollow Knight
@@ -72,6 +74,10 @@ namespace ParryKnight
             "Ruins Sentry 1-Trip Swipe 1",
             "Ruins Sentry 1-Trip Swipe 2",
             "Ruins Sentry 1-Trip Swipe 3",
+            "Ruins SentryB 1-Single Swipe",
+            "Ruins SentryB 1-Trip Swipe 1",
+            "Ruins SentryB 1-Trip Swipe 2",
+            "Ruins SentryB 1-Trip Swipe 3",
             "Zombie Shield-Attack1 Slash",              // Husk Warrior
             "Zombie Shield-A3 Slash 1",
             "Zombie Shield-A3 Lunge 2",
@@ -85,15 +91,23 @@ namespace ParryKnight
             "Lost Kin-Dash Attack 2",
             "Lost Kin-Ohead Slashing",
             "Mantis Heavy-Attack Swipe",                // Mantis Traitor
+            "Mantis Heavy Spawn-Attack Swipe",
             "Mantis-Attack Swipe",                      // Mantis Warrior
+            "Mantis-Up Slash",
+            "Gate Mantis-Attack Swipe",                 // Gate Mantis
+            "Gate Mantis-Up Slash",
             "Moss Knight-Attack1 Hitbox On",            // Moss Knight
             "Moss Knight-Attack 2 Slash",
+            "Moss Knight B-Attack1 Hitbox On",
+            "Moss Knight B-Attack 2 Slash",
+            "Moss Knight C-Attack1 Hitbox On",
+            "Moss Knight C-Attack 2 Slash",
             "Zombie Myla-Slash",                        // Myla
             "Nightmare Grimm Boss-Slash 1",             // Nightmare King Grimm
             "Nightmare Grimm Boss-Slash 2",
             "Nightmare Grimm Boss-Slash 3",
             "Sheo Boss-S 1",                            // Paintmaster Sheo
-            "Sheo Boss-S 2",                            
+            "Sheo Boss-S 2",
             "Sheo Boss-GSlash 1",
             "Sheo Boss-GSlash 2",
             "Sheo Boss-GSlash 3",
@@ -101,6 +115,7 @@ namespace ParryKnight
             "HK Prime-Slash 2",
             "HK Prime-Slash 3",
             "HK Prime-CSlash",
+            "HK Prime-Stun Start",
             "Hollow Shade-Slash",                       // Shade
             "Colosseum_Shield_Zombie-Attack1 Slash",    // Shielded Fool
             "Colosseum_Shield_Zombie-A3 Slash 1",
@@ -127,6 +142,7 @@ namespace ParryKnight
             "Black Knight 6-Slash2",
             "Colosseum_Flying_Sentry-Slash",            // Winged Fool
             "Ruins Flying Sentry-Slash",                // Winged Sentry
+            "Ruins Flying SentryB-Slash",
         };
         public List<string> parriableActions = new List<string>(parryActions);
     }
