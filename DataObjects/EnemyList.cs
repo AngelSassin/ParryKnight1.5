@@ -3,10 +3,6 @@ using System.Collections.Generic;
 
 namespace ParryKnight
 {
-    /// <summary>
-    /// Example Mod's global settings.
-    /// </summary>
-    /// <remarks>These will be saved In the Save Folder as ModName.GlobalSettings.json</remarks>
     public class EnemyList
     {
         private static string[] parryEnemies = new string[] {
@@ -17,7 +13,7 @@ namespace ParryKnight
             "Mato",                     // Brothers Oro & Mato
             "Lancer",                   // God Tamer
             "Great Shield Zombie",      // Great Husk Sentry
-            //"Sly Boss",                 // Great Nailsage Sly - Not in list because of Phase 2. There is a hard-coded fix in ParryKnight.cs
+            //"Sly Boss",               // Great Nailsage Sly - Not in list because of Phase 2. There is a hard-coded fix in ParryKnight.cs
             "Grimm Boss",               // Grimm
             "Colosseum_Worm",           // Heavy Fool
             "Ruins Sentry Fat",         // Heavy Sentry
@@ -53,6 +49,7 @@ namespace ParryKnight
             "Colosseum_Flying_Sentry",  // Winged Fool
             "Ruins Flying Sentry",      // Winged Sentry
         };
-        public List<string> parriableEnemies = new List<string>(parryEnemies);
+
+        internal List<string> parryableEnemies = new List<string>(parryEnemies);
     }
 }

@@ -3,10 +3,6 @@ using System.Collections.Generic;
 
 namespace ParryKnight
 {
-    /// <summary>
-    /// Example Mod's global settings.
-    /// </summary>
-    /// <remarks>These will be saved In the Save Folder as ModName.GlobalSettings.json</remarks>
     public class ActionList
     {
         private static string[] parryActions = new string[] {
@@ -144,6 +140,7 @@ namespace ParryKnight
             "Ruins Flying Sentry-Slash",                // Winged Sentry
             "Ruins Flying SentryB-Slash",
         };
-        public List<string> parriableActions = new List<string>(parryActions);
+
+        internal List<string> parryableActions = new List<string>(parryActions);
     }
 }
