@@ -19,16 +19,19 @@ namespace ParryKnight
             if (PlayerData.instance.GetBool("equippedCharm_6") && PlayerData.instance.health == 1) // If Fury of the Fallen is equipped and hp = 1
                 damage = (int)(damage * 1.75);
             double bossMultiplier = Tools.getBossMultiplier(name, gameState);
+            if (ParryKnight.GlobalSaveData.difficulty == CustomGlobalSaveData.DIFFICULTY_SETTING.APPRENTICE)
+                bossMultiplier *= 1.5;
+            if (ParryKnight.GlobalSaveData.difficulty == CustomGlobalSaveData.DIFFICULTY_SETTING.MASTER)
+                bossMultiplier *= 1.25;
             enemyHealth.ApplyExtraDamage((int)(damage * bossMultiplier));
         }
 
         // Disables non-parry damage dealt to parryable enemies
         internal static HitInstance HandleParryableEnemyDamage(HitInstance hitInstance)
         {
-            if (hitInstance.AttackType.Equals(AttackTypes.Nail) ||
-                    hitInstance.AttackType.Equals(AttackTypes.NailBeam) ||
-                    hitInstance.AttackType.Equals(AttackTypes.SharpShadow) ||
-                    hitInstance.AttackType.Equals(AttackTypes.Spell))
+            if (hitInstance.AttackType.Equals(AttackTypes.Nail) || hitInstance.AttackType.Equals(AttackTypes.NailBeam))
+                hitInstance.DamageDealt = 0;
+            if (hitInstance.AttackType.Equals(AttackTypes.SharpShadow) || hitInstance.AttackType.Equals(AttackTypes.Spell))
                 hitInstance.DamageDealt = 0;
             return hitInstance;
         }
@@ -36,19 +39,60 @@ namespace ParryKnight
         // Disables non-spell damage dealt to non-parryable enemies
         internal static HitInstance HandleNonParryableEnemyDamage(HitInstance hitInstance)
         {
-            if (hitInstance.AttackType.Equals(AttackTypes.Nail) ||
-                    hitInstance.AttackType.Equals(AttackTypes.NailBeam) ||
-                    hitInstance.AttackType.Equals(AttackTypes.SharpShadow))
+            if (hitInstance.AttackType.Equals(AttackTypes.Nail) || hitInstance.AttackType.Equals(AttackTypes.NailBeam))
+                hitInstance.DamageDealt = 0;
+            if (hitInstance.AttackType.Equals(AttackTypes.SharpShadow))
                 hitInstance.DamageDealt = 0;
             return hitInstance;
+        }
+
+        internal static void HandleParrySoulGain()
+        {
+            double additionalCharge = 1;
+            switch (ParryKnight.GlobalSaveData.difficulty)
+            {
+                case CustomGlobalSaveData.DIFFICULTY_SETTING.APPRENTICE:
+                    additionalCharge = 1;
+                    break;
+                case CustomGlobalSaveData.DIFFICULTY_SETTING.MASTER:
+                    additionalCharge = 0.5;
+                    break;
+                case CustomGlobalSaveData.DIFFICULTY_SETTING.SAGE:
+                    return;
+            }
+            additionalCharge *= GetBaseExtraSoul();
+
+            PlayerData.instance.AddMPCharge((int) additionalCharge);
+
+            // Update visuals
+            GameCameras.instance.soulOrbFSM.SendEvent("MP GAIN");
+            if (PlayerData.instance.GetInt("MPReserve") != 0)
+                GameManager.instance.soulVessel_fsm.SendEvent("MP RESERVE UP");
         }
 
         // Applies extra soul gain when using Nail Arts
         internal static void HandleNailArtSoulGain(HitInstance hitInstance)
         {
+            int additionalCharge = GetBaseExtraSoul();
+
+            if (hitInstance.Source.name.Equals("Hit L") || hitInstance.Source.name.Equals("Hit R"))
+                additionalCharge /= 2; // Nerf Cyclone Slash
+            if (PlayerData.instance.GetBool("equippedCharm_26"))
+                additionalCharge *= 2; // If Nailmaster's Glory is equipped, Gain even more additional soul on Nail Art.
+
+            PlayerData.instance.AddMPCharge(additionalCharge);
+
+            // Update visuals
+            GameCameras.instance.soulOrbFSM.SendEvent("MP GAIN");
+            if (PlayerData.instance.GetInt("MPReserve") != 0)
+                GameManager.instance.soulVessel_fsm.SendEvent("MP RESERVE UP");
+        }
+
+        private static int GetBaseExtraSoul()
+        {
             int tmpInt = PlayerData.instance.GetInt("MPReserve");
 
-            int additionalCharge = 6; // Gain additional soul on Nail Art
+            int additionalCharge = 6; // Gain soul
             if (tmpInt == 0)
                 additionalCharge += 5;
 
@@ -63,17 +107,7 @@ namespace ParryKnight
                 else
                     additionalCharge += 2;
 
-            if (hitInstance.Source.name.Equals("Hit L") || hitInstance.Source.name.Equals("Hit R"))
-                additionalCharge /= 2; // Nerf Cyclone Slash
-            if (PlayerData.instance.GetBool("equippedCharm_26"))
-                additionalCharge *= 2; // If Nailmaster's Glory is equipped, Gain even more additional soul on Nail Art.
-
-            PlayerData.instance.AddMPCharge(additionalCharge);
-
-            // Update visuals
-            GameCameras.instance.soulOrbFSM.SendEvent("MP GAIN");
-            if (PlayerData.instance.GetInt("MPReserve") != tmpInt)
-                GameManager.instance.soulVessel_fsm.SendEvent("MP RESERVE UP");
+            return additionalCharge;
         }
 
         // disables hatchling damage from Glowing Womb

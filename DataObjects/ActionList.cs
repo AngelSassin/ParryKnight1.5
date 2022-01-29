@@ -52,7 +52,7 @@ namespace ParryKnight
             "Colosseum_Worm-Land",
             "Ruins Sentry Fat-Swipe",                   // Heavy Sentry
             "Ruins Sentry Fat-Single Swipe",
-            "Ruins Sentry Fat B-Swipe",                 // Heavy Sentry, but B (whatever that means)
+            "Ruins Sentry Fat B-Swipe",                 
             "Ruins Sentry Fat B-Single Swipe",
             "Ruins Sentry FatB-Swipe",
             "Ruins Sentry FatB-Single Swipe",

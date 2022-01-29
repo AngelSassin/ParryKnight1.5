@@ -42,8 +42,8 @@ namespace ParryKnight
         internal static double getBossMultiplier(string key, GameState gameState)
         {
             double multiplier = 1;
-            if (BossSequenceController.IsInSequence && !gameState.hardMode)
-                multiplier *= 2;
+            if (BossSequenceController.IsInSequence)
+                multiplier *= ParryKnight.GlobalSaveData.pantheonBoost;
 
             if (!bossMultiplier.Keys.Contains(key))
                 return multiplier;

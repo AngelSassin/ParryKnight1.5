@@ -1,20 +1,13 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using UnityEngine;
+using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using GlobalEnums;
-using Modding;
-using UnityEngine;
-using UnityEngine.UI;
-using Mono.Cecil.Cil;
-using MonoMod;
-using TMPro;
-using UnityEngine.SceneManagement;
+using System.Security.Cryptography;
 using HutongGames.PlayMaker;
 using HutongGames.PlayMaker.Actions;
-using Language;
-using Vasi;
+using Modding;
 
 namespace ParryKnight
 {
@@ -25,9 +18,5 @@ namespace ParryKnight
         internal EnemyList enemyList { get; set; } = new EnemyList();
         internal bool slyPhaseTwo { get; set; } = false;
         internal bool displayingUnknownParryText { get; set; } = false;
-
-
-
-        internal bool hardMode { get; set; } = true;
     }
 }

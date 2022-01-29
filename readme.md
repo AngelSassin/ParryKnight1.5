@@ -1,14 +1,22 @@
 # Parry Knight Mod
 
-**This mod requires Vasi.**
-
 This mod was created with the following principles:
 - Only parrying will damage parryable enemies.
 - Only spells will damage non-parryable enemies.
 
+Parryable enemies will typically take much longer to kill. **An enemy health bar mod is strongly recommended.**
+
+There are four difficulties in the Mod Options:
+- Parry Sage: Default ParryKnight as described above
+- Parry Master: Parries do 1.5x damage and give a little soul
+- Parry Apprentice: Parries do 2.0x damage and give more soul
+- Baby: Completely disables all ParryKnight mod gameplay
+
+There is also a setting to make the Pantheons quicker to complete. 
+
 In order to make a full-game playthrough possible, aspids and False Knight are unaffected by the above until a spell is acquired.
 
-Parryable enemies will typically take much longer to kill. **An enemy health bar mod is strongly recommended.**
+Please message AngelSassin in the HK Discord if you find any bugs, along with your ModLog.
 
 A full list of changes to gameplay is listed at the bottom of the ReadMe.
 
@@ -57,6 +65,7 @@ Here are all the changes to the game made by the mod:
 - All parryable enemies, listed in EnemyList.cs, will receive no damage from any source from the player. Parrying them during one of their parryable actions will damage them proportional to your current nail's damage.
 - All other enemies will receive no damage from anything sourcing from the player except spells. 
 - Nail Arts will now gather soul, since they are otherwise useless.
+- Four difficulty settings are added in the Mod Options for ParryKnight. Baby difficulty completely disables mod changes.
 - Aspids and False Knight can be damaged with the nail until a spell is obtained. This is so that you are not softlocked from the beginning.
 - Some ability and ability pickup texts have been modified to convey how they are affected by this mod. For instance, spells now contain the text "Only non-parryable enemies will be damaged by this spell."
 - All charms that damage enemies no longer damage enemies, and in some cases, behave differently so that they do not damage enemies. For instance, Grimmchild cannot shoot fireballs. Yes, this means Grimmchild is even more useless than before.

@@ -17,19 +17,23 @@ namespace ParryKnight
             "Grimm Boss",               // Grimm
             "Colosseum_Worm",           // Heavy Fool
             "Ruins Sentry Fat",         // Heavy Sentry
-            "Ruins Sentry Fat B",       // Heavy Sentry, but B (whatever that means)
+            "Ruins Sentry Fat B",       
+            "Ruins Sentry FatB",
             "Hive Knight",              // Hive Knight
             "Hollow Knight Boss",       // The Hollow Knight
             "Hornet Boss 2",            // Hornet Sentinel
             "Zombie Miner 1",           // Husk Miner
             "Ruins Sentry 1",           // Husk Sentry
+            "Ruins SentryB 1",
             "Zombie Shield",            // Husk Warrior
-            "Zombie Shield 1",          // Husk Warrior, but different?
+            "Zombie Shield 1",          
             "Royal Gaurd",              // Kingsmould
             "Lost Kin",                 // Lost Kin
             "Mantis Heavy",             // Mantis Traitor
             "Mantis",                   // Mantis Warrior
             "Moss Knight",              // Moss Knight
+            "Moss Knight B",
+            "Moss Knight C",
             "Zombie Myla",              // Myla
             "Nightmare Grimm Boss",     // Nightmare King Grimm
             "Sheo Boss",                // Paintmaster Sheo
@@ -48,6 +52,7 @@ namespace ParryKnight
             "Black Knight 6",
             "Colosseum_Flying_Sentry",  // Winged Fool
             "Ruins Flying Sentry",      // Winged Sentry
+            "Ruins Flying SentryB",
         };
 
         internal List<string> parryableEnemies = new List<string>(parryEnemies);
