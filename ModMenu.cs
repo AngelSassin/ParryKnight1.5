@@ -15,9 +15,17 @@ namespace ParryKnight
 
             entries.Add(new IMenuMod.MenuEntry
             {
+                Name = "Toggle ParryKnight:",
+                Description = "Enable or Disable the Mod",
+                Values = new string[] { "On", "Off" },
+                Saver = (i) => GlobalSaveData.enabled = i == 0,
+                Loader = () => GlobalSaveData.enabled ? 0 : 1
+            });
+            entries.Add(new IMenuMod.MenuEntry
+            {
                 Name = "Difficulty:",
-                Description = "Set the difficulty of ParryKnight, or turn it off entirely",
-                Values = new string[] { "Baby", "Parry Apprentice", "Parry Master", "Parry Sage" },
+                Description = "Set the difficulty of ParryKnight",
+                Values = new string[] { "Parry Sage", "Parry Master", "Parry Apprentice" },
                 Saver = SetDifficulty,
                 Loader = GetDifficulty
             });
@@ -35,34 +43,23 @@ namespace ParryKnight
 
         public void SetDifficulty(int i)
         {
-            if (i == 0)
-            {
-                GlobalSaveData.enabled = false;
-                return;
-            }
-            GlobalSaveData.enabled = true;
-
             switch (i)
             {
-                case 1: GlobalSaveData.difficulty = CustomGlobalSaveData.DIFFICULTY_SETTING.APPRENTICE; break;
-                case 2: GlobalSaveData.difficulty = CustomGlobalSaveData.DIFFICULTY_SETTING.MASTER; break;
-                case 3: GlobalSaveData.difficulty = CustomGlobalSaveData.DIFFICULTY_SETTING.SAGE; break;
+                case 2: GlobalSaveData.difficulty = CustomGlobalSaveData.DIFFICULTY_SETTING.APPRENTICE; break;
+                case 1: GlobalSaveData.difficulty = CustomGlobalSaveData.DIFFICULTY_SETTING.MASTER; break;
+                case 0: GlobalSaveData.difficulty = CustomGlobalSaveData.DIFFICULTY_SETTING.SAGE; break;
             }
-
         }
 
         public int GetDifficulty()
         {
-            if (!GlobalSaveData.enabled)
-                return 0;
-
             switch (GlobalSaveData.difficulty)
             {
-                case CustomGlobalSaveData.DIFFICULTY_SETTING.APPRENTICE: return 1;
-                case CustomGlobalSaveData.DIFFICULTY_SETTING.MASTER: return 2;
-                case CustomGlobalSaveData.DIFFICULTY_SETTING.SAGE: return 3;
+                case CustomGlobalSaveData.DIFFICULTY_SETTING.APPRENTICE: return 2;
+                case CustomGlobalSaveData.DIFFICULTY_SETTING.MASTER: return 1;
+                case CustomGlobalSaveData.DIFFICULTY_SETTING.SAGE: return 0;
             }
-            return 1;
+            return 0;
         }
     }
 }

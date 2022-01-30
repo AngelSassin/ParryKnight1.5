@@ -20,7 +20,7 @@ namespace ParryKnight
 {
     public partial class ParryKnight : Mod
     {
-        public const string Version = "0.2.3.0";
+        public const string Version = "0.2.4.0";
         public override string GetVersion() => ParryKnight.Version;
         internal static ParryKnight Instance;
         private GameState gameState = new GameState();

@@ -9,9 +9,9 @@ X Aspids and False Knight are damageable by nail until Vengeful Spirit (this fix
 X Account for all charms (yikes).
 X Test Nail Arts parries. Do increased damage with nail art parries if possible.
     X Nail Arts CAN'T parry. Just increase soul gain when nail arts.
-NO Mod Options in main menu to change difficulty.
-- Change Flavor Texts of Charms and Spells
-  - Need GET versions of all nail arts and spells.
+X Mod Options in main menu to change difficulty.
+X Change Flavor Texts of Charms and Spells
+  X Need GET versions of all nail arts and spells.
 - Remove orange particles from nail hit, replace with Knight getting white particles to signify earning soul.
 - Create an on-screen indicator to tell players to send their ModLog file when an unaccounted parry occurs. 
 - BETA TESTING!!!
