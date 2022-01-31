@@ -124,6 +124,12 @@ namespace ParryKnight
             return hitInstance;
         }
 
+        internal static HitInstance HandleGenericHitDamage(HitInstance hitInstance)
+        {
+            hitInstance.DamageDealt = 0;
+            return hitInstance;
+        }
+
         // Disables crystal dash damage
         internal static HitInstance HandleCrystalDashDamage(HitInstance hitInstance)
         {

@@ -13,7 +13,7 @@ namespace ParryKnight
             "Mato",                     // Brothers Oro & Mato
             "Lancer",                   // God Tamer
             "Great Shield Zombie",      // Great Husk Sentry
-            //"Sly Boss",               // Great Nailsage Sly - Not in list because of Phase 2. There is a hard-coded fix in ParryKnight.cs
+            //"Sly Boss",               // Great Nailsage Sly - Not in list because of Phase 2. The check for Phase 2 is in Tools.cs
             "Grimm Boss",               // Grimm
             "Colosseum_Worm",           // Heavy Fool
             "Ruins Sentry Fat",         // Heavy Sentry
@@ -38,7 +38,7 @@ namespace ParryKnight
             "Nightmare Grimm Boss",     // Nightmare King Grimm
             "Sheo Boss",                // Paintmaster Sheo
             "HK Prime",                 // Pure Vessel
-            "Hollow Shade",             // Shade
+            //"Hollow Shade",             // Shade - Not in list because of Voidheart. The check for Voidheart is in Tools.cs
             "Colosseum_Shield_Zombie",  // Shielded Fool
             "Mage Knight",              // Soul Warrior
             "Slash Spider",             // Stalking Devout

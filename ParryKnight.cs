@@ -20,7 +20,7 @@ namespace ParryKnight
 {
     public partial class ParryKnight : Mod
     {
-        public const string Version = "0.2.4.0";
+        public const string Version = "1.0.0.0";
         public override string GetVersion() => ParryKnight.Version;
         internal static ParryKnight Instance;
         private GameState gameState = new GameState();
@@ -134,6 +134,9 @@ namespace ParryKnight
                 
                 if (hitInstance.Source.name.Equals("SuperDash Damage") || hitInstance.Source.name.Equals("SD Burst"))
                     hitInstance = ParryKnightHandler.HandleCrystalDashDamage(hitInstance);
+
+                if (hitInstance.Source.name.Equals("Hit"))
+                    hitInstance = ParryKnightHandler.HandleGenericHitDamage(hitInstance); // Cloth vs Traitor Lord, usually
             }
             
             if (name.Equals("Parasite Balloon Spawner")) 

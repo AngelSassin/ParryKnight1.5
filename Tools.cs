@@ -60,7 +60,8 @@ namespace ParryKnight
         internal static bool isEnemyParryable(string name, GameState gameState)
         {
             return gameState.enemyList.parryableEnemies.Contains(name) ||
-                (name.Equals("Sly Boss") && !gameState.slyPhaseTwo);
+                (name.Equals("Sly Boss") && !gameState.slyPhaseTwo) ||
+                (name.Equals("Hollow Shade") && PlayerData.instance.royalCharmState != 4);
         }
 
         internal static bool isActionParryable(string name, string state, GameState gameState)

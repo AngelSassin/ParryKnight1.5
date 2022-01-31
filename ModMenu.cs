@@ -32,7 +32,7 @@ namespace ParryKnight
             entries.Add(new IMenuMod.MenuEntry
             {
                 Name = "Pantheon Boost:",
-                Description = "Modifies damage taken by bosses in the Pantheons",
+                Description = "Modifies damage dealt to bosses in the Pantheons",
                 Values = new string[] { "None", "1.5x", "2.0x" },
                 Saver = (i) => GlobalSaveData.pantheonBoost = (i + 2) / 2.0,
                 Loader = () => (int) (GlobalSaveData.pantheonBoost * 2.0) - 2
