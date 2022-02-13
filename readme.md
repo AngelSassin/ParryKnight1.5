@@ -6,11 +6,10 @@ This mod was created with the following principles:
 
 Parryable enemies will typically take much longer to kill. **An enemy health bar mod is strongly recommended.**
 
-There are four difficulties in the Mod Options:
+There are three difficulties in the Mod Options:
 - Parry Sage: Default ParryKnight as described above
 - Parry Master: Parries do 1.5x damage and give a little soul
 - Parry Apprentice: Parries do 2.0x damage and give more soul
-- Baby: Completely disables all ParryKnight mod gameplay
 
 There is also a setting to make the Pantheons quicker to complete. 
 
